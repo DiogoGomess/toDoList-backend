@@ -1,9 +1,9 @@
 const express = require('express')
 const app = express()
-
+const cors = require('cors');
 app.use(express.json())
 const port = 3000
-
+app.use(cors());
 
 const config = require('./config/config')
 const Task = require('./models/tasks').task
@@ -17,9 +17,11 @@ app.get('/', async (req, res) => {
 
 app.post('/', async (req, res) => {
   const task = new Task({
-    description: req.body.description,
+    title: req.body.title,
+    type: req.body.type,
     completed: false,
-    duration:req.body.duration,
+    dueDate: req.body.dueDate,
+    priority: req.body.priority
   })
 
   await task.save()
@@ -28,9 +30,11 @@ app.post('/', async (req, res) => {
 
 app.put('/:id', async (req, res) => {
   const task  = await Task.findByIdAndUpdate(req.params.id, {
-    description: req.body.description,
-    completed: req.body.completed || false,
-    duration: req.body.duration
+    title: req.body.title,
+    type: req.body.type,
+    completed: req.body.completed ||false,
+    dueDate: req.body.dueDate,
+    priority: req.body.priority
   }, { new:true })
   
   return res.send(task)

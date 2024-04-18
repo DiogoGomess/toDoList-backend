@@ -1,9 +1,11 @@
 const mongoose = require('mongoose'); 
 
 const taskModel = new mongoose.Schema({
-    description: String,
+    title: String,
+    type: String,
     completed: { type: Boolean, default: false },
-    duration: { type: Number, default: 0}
+    dueDate: String, 
+    priority: String 
 })
 
 const Task = mongoose.model('task', taskModel)
